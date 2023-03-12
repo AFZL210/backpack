@@ -356,6 +356,9 @@ export const MessageLine = (props) => {
                               parent_username: `@${props.username}`,
                               parent_message_author_uuid: props.userId,
                             });
+                            document
+                            .getElementById(chatMessageInputId)
+                            ?.focus();
                           }}
                         >
                           <ReplyIcon fill={theme.custom.colors.icon} />
