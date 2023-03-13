@@ -1,11 +1,12 @@
 // TODO: remove the line below
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Suspense, useEffect, useState } from "react";
-import type { EnrichedNotification } from "@coral-xyz/common";
+import type { EnrichedNotification} from "@coral-xyz/common";
 import {
   BACKEND_API_URL,
   sendFriendRequest,
   XNFT_GG_LINK,
+  NAV_COMPONENT_MESSAGE_PROFILE
 } from "@coral-xyz/common";
 import { updateFriendshipIfExists } from "@coral-xyz/db";
 import {
@@ -16,7 +17,7 @@ import {
   ProxyImage,
   useBreakpoints,
   UserAction,
-  useUserMetadata,
+  useUserMetadata
 } from "@coral-xyz/react-common";
 import {
   unreadCount,
@@ -25,6 +26,7 @@ import {
   useRecentNotifications,
   useUpdateFriendships,
   useUser,
+  useNavigation as useNav
 } from "@coral-xyz/recoil";
 import { styles, useCustomTheme } from "@coral-xyz/themes";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -39,6 +41,7 @@ import {
 } from "../../common/Layout/NavStack";
 import { NotificationIconWithBadge } from "../../common/NotificationIconWithBadge";
 import { ContactRequests, Contacts } from "../Messages/Contacts";
+
 
 const useStyles = styles((theme) => ({
   recentActivityLabel: {
@@ -222,7 +225,7 @@ export function Notifications() {
   const nav = isXs ? useNavigation() : null;
   const authenticatedUser = useAuthenticatedUser();
   const [openDrawer, setOpenDrawer] = isXs
-    ? [false, () => {}]
+    ? [false, () => { }]
     : useState(false);
 
   const [, setUnreadCount] = useRecoilState(unreadCount);
@@ -490,7 +493,7 @@ function NotificationListItem({
     <ListItem
       button
       disableRipple
-      onClick={() => {}}
+      onClick={() => { }}
       style={{
         paddingLeft: "12px",
         paddingRight: "12px",
@@ -631,6 +634,20 @@ function FriendRequestListItem({
   });
   const classes = useStyles();
   const theme = useCustomTheme();
+  const userId:string = parseJson(notification.body).from
+  console.log(typeof userId)
+
+  
+const { push } = useNav();
+const openProfile = (userId:string,username:string):void => {
+  push({
+    title: `@${username}`,
+    componentId: NAV_COMPONENT_MESSAGE_PROFILE,
+      componentProps: {
+        userId: userId,
+      },
+  })
+}
 
   return (
     <ListItem
@@ -667,6 +684,7 @@ function FriendRequestListItem({
               flexDirection: "column",
               justifyContent: "center",
             }}
+            onClick={() => openProfile(userId,user.username)}
           >
             <NotificationListItemIcon image={user?.image} />
           </div>
