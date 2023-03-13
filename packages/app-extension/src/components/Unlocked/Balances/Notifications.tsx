@@ -6,6 +6,7 @@ import {
   BACKEND_API_URL,
   sendFriendRequest,
   XNFT_GG_LINK,
+  NAV_COMPONENT_MESSAGE_PROFILE
 } from "@coral-xyz/common";
 import { updateFriendshipIfExists } from "@coral-xyz/db";
 import {
